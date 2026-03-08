@@ -6,6 +6,11 @@
 <body>
     <h1>All Posts</h1>
 
+    <form method="GET" action="{% url 'search-results' %}">
+        <input type="text" name="q" placeholder="Search posts...">
+        <button type="submit">Search</button>
+    </form>
+
     {% if user.is_authenticated %}
         <p><a href="{% url 'post-create' %}">Create New Post</a></p>
     {% endif %}
@@ -15,6 +20,11 @@
             <h2><a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a></h2>
             <p>{{ post.content|truncatewords:20 }}</p>
             <small>By {{ post.author }} on {{ post.published_date }}</small>
+            <p>
+                {% for tag in post.tags.all %}
+                    <a href="{% url 'tag-posts' tag.name %}">{{ tag.name }}</a>
+                {% endfor %}
+            </p>
         </article>
         <hr>
     {% empty %}
