@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ object.title }}</title>
+</head>
+<body>
+    <h1>{{ object.title }}</h1>
+    <p>{{ object.content }}</p>
+    <small>By {{ object.author }} on {{ object.published_date }}</small>
+
+    {% if user == object.author %}
+        <p>
+            <a href="{% url 'post-update' object.pk %}">Edit</a>
+            <a href="{% url 'post-delete' object.pk %}">Delete</a>
+        </p>
+    {% endif %}
+
+    <p><a href="{% url 'post-list' %}">Back to Posts</a></p>
+</body>
+</html>
