@@ -21,7 +21,6 @@ class CustomUserManager(BaseUserManager):
     def create_superuser(self, username, email=None, password=None, date_of_birth=None, profile_photo=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-
         return self.create_user(
             username=username,
             email=email,
@@ -40,3 +39,20 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+
+
+class Book(models.Model):
+    title = models.CharField(max_length=200)
+    author = models.CharField(max_length=100)
+    publication_year = models.IntegerField()
+
+    class Meta:
+        permissions = [
+            ("can_view", "Can view"),
+            ("can_create", "Can create"),
+            ("can_edit", "Can edit"),
+            ("can_delete", "Can delete"),
+        ]
+
+    def __str__(self):
+        return self.title
