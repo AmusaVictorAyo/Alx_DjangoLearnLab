@@ -2,7 +2,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
-    <link rel="stylesheet" href="{% static 'blog/style.css' %}">
+    <title>Register</title>
 </head>
 <body>
+
+<h1>Register</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+</form>
+
+<a href="{% url 'login' %}">Login</a>
+
+</body>
+</html>
