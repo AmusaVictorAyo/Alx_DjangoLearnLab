@@ -57,3 +57,22 @@ Posts can be searched by title or content using query parameters:
 
 ```bash
 /posts/?search=django
+
+
+## Follow and Feed Functionality
+
+### Follow a User
+- `POST /follow/<user_id>/`
+- Requires authentication
+- Adds the target user to the current user's following list
+
+### Unfollow a User
+- `POST /unfollow/<user_id>/`
+- Requires authentication
+- Removes the target user from the current user's following list
+
+### Feed Endpoint
+- `GET /api/feed/`
+- Requires authentication
+- Returns posts created by users the current user follows
+- Posts are ordered by newest first
