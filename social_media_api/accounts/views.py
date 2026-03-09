@@ -18,7 +18,6 @@ class RegisterView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         token, created = Token.objects.get_or_create(user=user)
-
         return Response({
             'user': UserSerializer(user).data,
             'token': token.key
@@ -31,7 +30,6 @@ class LoginView(APIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
-
         return Response({
             'token': token.key,
             'user': UserSerializer(user).data
@@ -53,13 +51,13 @@ class FollowUserView(generics.GenericAPIView):
         try:
             user_to_follow = User.objects.get(id=user_id)
         except User.DoesNotExist:
-            return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
         if request.user == user_to_follow:
-            return Response({'detail': 'You cannot follow yourself.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'detail': 'You cannot follow yourself'}, status=status.HTTP_400_BAD_REQUEST)
 
         request.user.following.add(user_to_follow)
-        return Response({'detail': f'You are now following {user_to_follow.username}.'}, status=status.HTTP_200_OK)
+        return Response({'detail': 'User followed successfully'}, status=status.HTTP_200_OK)
 
 
 class UnfollowUserView(generics.GenericAPIView):
@@ -69,10 +67,10 @@ class UnfollowUserView(generics.GenericAPIView):
         try:
             user_to_unfollow = User.objects.get(id=user_id)
         except User.DoesNotExist:
-            return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
         if request.user == user_to_unfollow:
-            return Response({'detail': 'You cannot unfollow yourself.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'detail': 'You cannot unfollow yourself'}, status=status.HTTP_400_BAD_REQUEST)
 
         request.user.following.remove(user_to_unfollow)
-        return Response({'detail': f'You have unfollowed {user_to_unfollow.username}.'}, status=status.HTTP_200_OK)
+        return Response({'detail': 'User unfollowed successfully'}, status=status.HTTP_200_OK)
